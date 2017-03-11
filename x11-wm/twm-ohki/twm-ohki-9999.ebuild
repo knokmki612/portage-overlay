@@ -11,7 +11,8 @@ DESCRIPTION="X.Org twm application include ohki patch"
 KEYWORDS=""
 IUSE=""
 
-RDEPEND="x11-libs/libX11
+RDEPEND="!x11-wm/twm
+	x11-libs/libX11
 	x11-libs/libXext
 	x11-libs/libXt
 	x11-libs/libXmu
