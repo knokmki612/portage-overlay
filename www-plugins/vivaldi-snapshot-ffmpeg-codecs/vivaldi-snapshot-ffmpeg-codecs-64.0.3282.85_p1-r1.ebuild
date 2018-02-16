@@ -9,7 +9,7 @@ SRC_URI="https://repo.herecura.eu/herecura/x86_64/${PN}-${PV/_p1/-1}-x86_64.pkg.
 
 LICENSE="LGPL2.1"
 SLOT="0"
-KEYWORDS="~amd64"
+KEYWORDS="amd64"
 IUSE=""
 
 RDEPEND="www-client/vivaldi-snapshot"
