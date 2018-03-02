@@ -1,4 +1,4 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
@@ -11,7 +11,8 @@ SRC_URI="https://github.com/OtterBrowser/${PN}-browser/archive/v${PV/_p/-dev}.ta
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="~amd64 ~ppc64 ~x86"
-IUSE="+webengine spell"
+IUSE="+webkit webengine spell"
+REQUIRED_USE="|| ( webkit webengine )"
 
 DEPEND="
 	dev-qt/qtconcurrent:5
@@ -25,11 +26,11 @@ DEPEND="
 	dev-qt/qtscript:5
 	dev-qt/qtsql:5
 	dev-qt/qtsvg:5
-	dev-qt/qtwebkit:5
 	dev-qt/qtwidgets:5
 	dev-qt/qtxmlpatterns:5
-	webengine? ( dev-qt/qtwebengine:5[widgets] )
 	spell? ( kde-frameworks/sonnet )
+	webengine? ( >=dev-qt/qtwebengine-5.9.0[widgets] )
+	webkit? ( dev-qt/qtwebkit:5 )
 "
 RDEPEND="
 	${DEPEND}
@@ -56,6 +57,19 @@ src_prepare() {
 	if ! use spell; then
 		sed -i -e '/find_package(KF5Sonnet)/d' CMakeLists.txt || die
 	fi
+
+	if use webengine && ! use webkit; then
+		epatch "${FILESDIR}/change-default-web-backends.patch"
+	fi
+}
+
+src_configure() {
+	local mycmakeargs=(
+		-DENABLE_QTWEBKIT=$(usex webkit) \
+		-DENABLE_QTWEBENGINE=$(usex webengine)
+	)
+
+	cmake-utils_src_configure
 }
 
 src_install() {
