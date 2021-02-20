@@ -3,17 +3,19 @@
 
 EAPI=7
 
-inherit git-r3 cmake-utils
+CMAKE_ECLASS="cmake"
+inherit git-r3 cmake-multilib
 
 DESCRIPTION="An open Apple Wireless Direct Link (AWDL) implementation written in C"
 HOMEPAGE="https://owlink.org/"
-EGIT_REPO_URI="git://github.com/seemoo-lab/owl.git"
+
+EGIT_REPO_URI="https://github.com/seemoo-lab/owl.git"
 
 LICENSE="GPL-3"
 SLOT="0"
-KEYWORDS="~amd64"
+KEYWORDS="amd64"
 IUSE=""
 
-src_configure() {
-  cmake-utils_src_configure
-}
+BDEPEND="net-libs/libpcap dev-libs/libev dev-libs/libnl:3"
+
+PATCHES=( "${FILESDIR}/install-shared-libraries.patch" )

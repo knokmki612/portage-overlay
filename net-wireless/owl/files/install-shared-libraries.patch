@@ -1,0 +1,10 @@
+diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
+index a18d637..83b4364 100644
+--- a/src/CMakeLists.txt
++++ b/src/CMakeLists.txt
+@@ -38,3 +38,5 @@ target_sources(awdl PRIVATE
+ target_include_directories(awdl PRIVATE ${CMAKE_SOURCE_DIR}/radiotap)
+ 
+ target_link_libraries(awdl radiotap)
++
++install(TARGETS awdl radiotap DESTINATION ${CMAKE_INSTALL_LIBDIR})
